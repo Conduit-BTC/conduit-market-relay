@@ -1,5 +1,5 @@
-import { assertArrayIncludes, assertEquals, assertExists, assertFalse, assertThrows, assert, assertMatch } from "@std/assert";
-import { eventBus } from "../../src/services/eventBus.ts";
+import { assertArrayIncludes, assertEquals, assertExists, assertFalse, assertThrows, assert } from "@std/assert";
+import { eventBus } from "../../src/events/eventBus.ts"
 
 const TEST_EVENT = "TEST_EVENT"
 const TEST_EVENT_X = "TEST_EVENT_X"

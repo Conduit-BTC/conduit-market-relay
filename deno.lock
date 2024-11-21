@@ -1,8 +1,28 @@
 {
   "version": "4",
   "specifiers": {
-    "jsr:@std/assert@1": "1.0.8",
-    "jsr:@std/internal@^1.0.5": "1.0.5"
+    "jsr:@std/assert@^1.0.8": "1.0.8",
+    "jsr:@std/async@^1.0.8": "1.0.8",
+    "jsr:@std/bytes@^1.0.2": "1.0.4",
+    "jsr:@std/cli@^1.0.6": "1.0.6",
+    "jsr:@std/data-structures@^1.0.4": "1.0.4",
+    "jsr:@std/encoding@^1.0.5": "1.0.5",
+    "jsr:@std/fmt@^1.0.3": "1.0.3",
+    "jsr:@std/fs@^1.0.5": "1.0.5",
+    "jsr:@std/http@^1.0.10": "1.0.10",
+    "jsr:@std/internal@^1.0.5": "1.0.5",
+    "jsr:@std/io@0.225": "0.225.0",
+    "jsr:@std/media-types@^1.1.0": "1.1.0",
+    "jsr:@std/net@^1.0.4": "1.0.4",
+    "jsr:@std/path@^1.0.7": "1.0.8",
+    "jsr:@std/path@^1.0.8": "1.0.8",
+    "jsr:@std/streams@^1.0.8": "1.0.8",
+    "jsr:@std/testing@^1.0.5": "1.0.5",
+    "npm:@types/node@*": "22.5.4",
+    "npm:@types/ws@^8.5.13": "8.5.13",
+    "npm:graphql-yoga@^5.10.3": "5.10.3_graphql@16.9.0",
+    "npm:graphql@^16.9.0": "16.9.0",
+    "npm:ws@^8.18.0": "8.18.0"
   },
   "jsr": {
     "@std/assert@1.0.8": {
@@ -11,19 +31,299 @@
         "jsr:@std/internal"
       ]
     },
+    "@std/async@1.0.8": {
+      "integrity": "c057c5211a0f1d12e7dcd111ab430091301b8d64b4250052a79d277383bc3ba7"
+    },
+    "@std/bytes@1.0.4": {
+      "integrity": "11a0debe522707c95c7b7ef89b478c13fb1583a7cfb9a85674cd2cc2e3a28abc"
+    },
+    "@std/cli@1.0.6": {
+      "integrity": "d22d8b38c66c666d7ad1f2a66c5b122da1704f985d3c47f01129f05abb6c5d3d"
+    },
+    "@std/data-structures@1.0.4": {
+      "integrity": "fa0e20c11eb9ba673417450915c750a0001405a784e2a4e0c3725031681684a0"
+    },
+    "@std/encoding@1.0.5": {
+      "integrity": "ecf363d4fc25bd85bd915ff6733a7e79b67e0e7806334af15f4645c569fefc04"
+    },
+    "@std/fmt@1.0.3": {
+      "integrity": "97765c16aa32245ff4e2204ecf7d8562496a3cb8592340a80e7e554e0bb9149f"
+    },
+    "@std/fs@1.0.5": {
+      "integrity": "41806ad6823d0b5f275f9849a2640d87e4ef67c51ee1b8fb02426f55e02fd44e",
+      "dependencies": [
+        "jsr:@std/path@^1.0.7"
+      ]
+    },
+    "@std/http@1.0.10": {
+      "integrity": "4e32d11493ab04e3ef09f104f0cb9beb4228b1d4b47c5469573c2c294c0d3692",
+      "dependencies": [
+        "jsr:@std/cli",
+        "jsr:@std/encoding",
+        "jsr:@std/fmt",
+        "jsr:@std/media-types",
+        "jsr:@std/net",
+        "jsr:@std/path@^1.0.8",
+        "jsr:@std/streams"
+      ]
+    },
     "@std/internal@1.0.5": {
       "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
+    },
+    "@std/io@0.225.0": {
+      "integrity": "c1db7c5e5a231629b32d64b9a53139445b2ca640d828c26bf23e1c55f8c079b3",
+      "dependencies": [
+        "jsr:@std/bytes"
+      ]
+    },
+    "@std/media-types@1.1.0": {
+      "integrity": "c9d093f0c05c3512932b330e3cc1fe1d627b301db33a4c2c2185c02471d6eaa4"
+    },
+    "@std/net@1.0.4": {
+      "integrity": "2f403b455ebbccf83d8a027d29c5a9e3a2452fea39bb2da7f2c04af09c8bc852"
+    },
+    "@std/path@1.0.8": {
+      "integrity": "548fa456bb6a04d3c1a1e7477986b6cffbce95102d0bb447c67c4ee70e0364be"
+    },
+    "@std/streams@1.0.8": {
+      "integrity": "b41332d93d2cf6a82fe4ac2153b930adf1a859392931e2a19d9fabfb6f154fb3"
+    },
+    "@std/testing@1.0.5": {
+      "integrity": "6e693cbec94c81a1ad3df668685c7ba8e20742bb10305bc7137faa5cf16d2ec4",
+      "dependencies": [
+        "jsr:@std/assert",
+        "jsr:@std/data-structures",
+        "jsr:@std/fs",
+        "jsr:@std/internal",
+        "jsr:@std/path@^1.0.8"
+      ]
     }
+  },
+  "npm": {
+    "@envelop/core@5.0.2": {
+      "integrity": "sha512-tVL6OrMe6UjqLosiE+EH9uxh2TQC0469GwF4tE014ugRaDDKKVWwFwZe0TBMlcyHKh5MD4ZxktWo/1hqUxIuhw==",
+      "dependencies": [
+        "@envelop/types",
+        "tslib"
+      ]
+    },
+    "@envelop/types@5.0.0": {
+      "integrity": "sha512-IPjmgSc4KpQRlO4qbEDnBEixvtb06WDmjKfi/7fkZaryh5HuOmTtixe1EupQI5XfXO8joc3d27uUZ0QdC++euA==",
+      "dependencies": [
+        "tslib"
+      ]
+    },
+    "@graphql-tools/executor@1.3.3_graphql@16.9.0": {
+      "integrity": "sha512-lpkgokF6vjGHNluANOTsWoSM0vuvUuVpjY1810tvM6Vlyoq2tJ+nmqweGbMsq/GLhmZQP1lY/nOkj2zPJXLWiw==",
+      "dependencies": [
+        "@graphql-tools/utils",
+        "@graphql-typed-document-node/core",
+        "@repeaterjs/repeater",
+        "graphql",
+        "tslib",
+        "value-or-promise"
+      ]
+    },
+    "@graphql-tools/merge@9.0.9_graphql@16.9.0": {
+      "integrity": "sha512-w9yaU7UMRQvtkTYZHo+c7cS7LO7rqc2H6g3k0aUs8VE9YlFYG1bYdxvEPM5bloaoVqr5TmbqIZqzl1CHeJKilQ==",
+      "dependencies": [
+        "@graphql-tools/utils",
+        "graphql",
+        "tslib"
+      ]
+    },
+    "@graphql-tools/schema@10.0.8_graphql@16.9.0": {
+      "integrity": "sha512-jkCSq+DdT6Rf/MN3oVz250AMFWZO0E5kh0C2K+kJfS80iBW7/7kLjiSbKz+WD9UBtsJPW2zyzKYC4ylU4jmnLw==",
+      "dependencies": [
+        "@graphql-tools/merge",
+        "@graphql-tools/utils",
+        "graphql",
+        "tslib",
+        "value-or-promise"
+      ]
+    },
+    "@graphql-tools/utils@10.5.6_graphql@16.9.0": {
+      "integrity": "sha512-JAC44rhbLzXUHiltceyEpWkxmX4e45Dfg19wRFoA9EbDxQVbOzVNF76eEECdg0J1owFsJwfLqCwz7/6xzrovOw==",
+      "dependencies": [
+        "@graphql-typed-document-node/core",
+        "cross-inspect",
+        "dset",
+        "graphql",
+        "tslib"
+      ]
+    },
+    "@graphql-typed-document-node/core@3.2.0_graphql@16.9.0": {
+      "integrity": "sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==",
+      "dependencies": [
+        "graphql"
+      ]
+    },
+    "@graphql-yoga/logger@2.0.0": {
+      "integrity": "sha512-Mg8psdkAp+YTG1OGmvU+xa6xpsAmSir0hhr3yFYPyLNwzUj95DdIwsMpKadDj9xDpYgJcH3Hp/4JMal9DhQimA==",
+      "dependencies": [
+        "tslib"
+      ]
+    },
+    "@graphql-yoga/subscription@5.0.1": {
+      "integrity": "sha512-1wCB1DfAnaLzS+IdoOzELGGnx1ODEg9nzQXFh4u2j02vAnne6d+v4A7HIH9EqzVdPLoAaMKXCZUUdKs+j3z1fg==",
+      "dependencies": [
+        "@graphql-yoga/typed-event-target",
+        "@repeaterjs/repeater",
+        "@whatwg-node/events",
+        "tslib"
+      ]
+    },
+    "@graphql-yoga/typed-event-target@3.0.0": {
+      "integrity": "sha512-w+liuBySifrstuHbFrHoHAEyVnDFVib+073q8AeAJ/qqJfvFvAwUPLLtNohR/WDVRgSasfXtl3dcNuVJWN+rjg==",
+      "dependencies": [
+        "@repeaterjs/repeater",
+        "tslib"
+      ]
+    },
+    "@kamilkisiela/fast-url-parser@1.1.4": {
+      "integrity": "sha512-gbkePEBupNydxCelHCESvFSFM8XPh1Zs/OAVRW/rKpEqPAl5PbOM90Si8mv9bvnR53uPD2s/FiRxdvSejpRJew=="
+    },
+    "@repeaterjs/repeater@3.0.6": {
+      "integrity": "sha512-Javneu5lsuhwNCryN+pXH93VPQ8g0dBX7wItHFgYiwQmzE1sVdg5tWHiOgHywzL2W21XQopa7IwIEnNbmeUJYA=="
+    },
+    "@types/node@22.5.4": {
+      "integrity": "sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==",
+      "dependencies": [
+        "undici-types"
+      ]
+    },
+    "@types/ws@8.5.13": {
+      "integrity": "sha512-osM/gWBTPKgHV8XkTunnegTRIsvF6owmf5w+JtAfOw472dptdm0dlGv4xCt6GwQRcC2XVOvvRE/0bAoQcL2QkA==",
+      "dependencies": [
+        "@types/node"
+      ]
+    },
+    "@whatwg-node/events@0.1.2": {
+      "integrity": "sha512-ApcWxkrs1WmEMS2CaLLFUEem/49erT3sxIVjpzU5f6zmVcnijtDSrhoK2zVobOIikZJdH63jdAXOrvjf6eOUNQ==",
+      "dependencies": [
+        "tslib"
+      ]
+    },
+    "@whatwg-node/fetch@0.10.1": {
+      "integrity": "sha512-gmPOLrsjSZWEZlr9Oe5+wWFBq3CG6fN13rGlM91Jsj/vZ95G9CCvrORGBAxMXy0AJGiC83aYiHXn3JzTzXQmbA==",
+      "dependencies": [
+        "@whatwg-node/node-fetch",
+        "urlpattern-polyfill"
+      ]
+    },
+    "@whatwg-node/node-fetch@0.7.3": {
+      "integrity": "sha512-mqHYN1JZG0bSnOi6bxYq8zSBLfp02597yb9YNwZ0Zqn3TdC7/YjRWKnnGm49rzIWGaNaHiUjv8KThuhpK7NDLA==",
+      "dependencies": [
+        "@kamilkisiela/fast-url-parser",
+        "busboy",
+        "fast-querystring",
+        "tslib"
+      ]
+    },
+    "@whatwg-node/server@0.9.56": {
+      "integrity": "sha512-qHvoug7dTStxDvJKhivO4V/+3Ac+RrMYPwSJ1Sqbq3qbDB0s8xRtlRU+jciOvUJrQQDzcQZJ736yLiKayWscsQ==",
+      "dependencies": [
+        "@whatwg-node/fetch",
+        "tslib"
+      ]
+    },
+    "busboy@1.6.0": {
+      "integrity": "sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==",
+      "dependencies": [
+        "streamsearch"
+      ]
+    },
+    "cross-inspect@1.0.1": {
+      "integrity": "sha512-Pcw1JTvZLSJH83iiGWt6fRcT+BjZlCDRVwYLbUcHzv/CRpB7r0MlSrGbIyQvVSNyGnbt7G4AXuyCiDR3POvZ1A==",
+      "dependencies": [
+        "tslib"
+      ]
+    },
+    "dset@3.1.4": {
+      "integrity": "sha512-2QF/g9/zTaPDc3BjNcVTGoBbXBgYfMTTceLaYcFJ/W9kggFUkhxD/hMEeuLKbugyef9SqAx8cpgwlIP/jinUTA=="
+    },
+    "fast-decode-uri-component@1.0.1": {
+      "integrity": "sha512-WKgKWg5eUxvRZGwW8FvfbaH7AXSh2cL+3j5fMGzUMCxWBJ3dV3a7Wz8y2f/uQ0e3B6WmodD3oS54jTQ9HVTIIg=="
+    },
+    "fast-querystring@1.1.2": {
+      "integrity": "sha512-g6KuKWmFXc0fID8WWH0jit4g0AGBoJhCkJMb1RmbsSEUNvQ+ZC8D6CUZ+GtF8nMzSPXnhiePyyqqipzNNEnHjg==",
+      "dependencies": [
+        "fast-decode-uri-component"
+      ]
+    },
+    "graphql-yoga@5.10.3_graphql@16.9.0": {
+      "integrity": "sha512-TE6tFvWvD6LHy1v0hleEnftla5Oo2plgat/r8yHcUSS0Qqb+5fb/eHlthNAi+81gFziHc1mUE5w8PqMjBL5/eA==",
+      "dependencies": [
+        "@envelop/core",
+        "@graphql-tools/executor",
+        "@graphql-tools/schema",
+        "@graphql-tools/utils",
+        "@graphql-yoga/logger",
+        "@graphql-yoga/subscription",
+        "@whatwg-node/fetch",
+        "@whatwg-node/server",
+        "dset",
+        "graphql",
+        "lru-cache",
+        "tslib"
+      ]
+    },
+    "graphql@16.9.0": {
+      "integrity": "sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw=="
+    },
+    "lru-cache@10.4.3": {
+      "integrity": "sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ=="
+    },
+    "streamsearch@1.1.0": {
+      "integrity": "sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg=="
+    },
+    "tslib@2.8.1": {
+      "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="
+    },
+    "undici-types@6.19.8": {
+      "integrity": "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="
+    },
+    "urlpattern-polyfill@10.0.0": {
+      "integrity": "sha512-H/A06tKD7sS1O1X2SshBVeA5FLycRpjqiBeqGKmBwBDBy28EnRjORxTNe269KSSr5un5qyWi1iL61wLxpd+ZOg=="
+    },
+    "value-or-promise@1.0.12": {
+      "integrity": "sha512-Z6Uz+TYwEqE7ZN50gwn+1LCVo9ZVrpxRPOhOLnncYkY1ZzOYtrX8Fwf/rFktZ8R5mJms6EZf5TqNOMeZmnPq9Q=="
+    },
+    "ws@8.18.0": {
+      "integrity": "sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw=="
+    }
+  },
+  "remote": {
+    "https://deno.land/std@0.91.0/_util/assert.ts": "2f868145a042a11d5ad0a3c748dcf580add8a0dbc0e876eaa0026303a5488f58",
+    "https://deno.land/std@0.91.0/async/deferred.ts": "624bef4b755b71394620508a0c234a93cb8020cbd1b04bfcdad41c174392cef6",
+    "https://deno.land/std@0.91.0/async/delay.ts": "9de1d8d07d1927767ab7f82434b883f3d8294fb19cad819691a2ad81a728cf3d",
+    "https://deno.land/std@0.91.0/async/mod.ts": "253b41c658d768613eacfb11caa0a9ca7148442f932018a45576f7f27554c853",
+    "https://deno.land/std@0.91.0/async/mux_async_iterator.ts": "b9091909db04cdb0af6f7807677372f64c1488de6c4bd86004511b064bf230d6",
+    "https://deno.land/std@0.91.0/async/pool.ts": "876f9e6815366cd017a3b4fbb9e9ae40310b1b6972f1bd541c94358bc11fb7e5",
+    "https://deno.land/std@0.91.0/bytes/mod.ts": "1ae1ccfe98c4b979f12b015982c7444f81fcb921bea7aa215bf37d84f46e1e13",
+    "https://deno.land/std@0.91.0/datetime/formatter.ts": "bf7befcd2c55c3060be199ebc10e40f9c33aef6141c20f7c781d03beef25a49e",
+    "https://deno.land/std@0.91.0/datetime/mod.ts": "c62a2c7e9d364f8d007f0f2496a4850a0f0790adb529de1988359d8d54f6103c",
+    "https://deno.land/std@0.91.0/datetime/tokenizer.ts": "492bb6251e75e0c03d5a89a66bd2b03e08e9cbc298d51e002cf59378aaa32c48",
+    "https://deno.land/std@0.91.0/http/_io.ts": "bf1331dd3be8aace9120614c1fedc2bb2449edc4779e31b74c0181ea9173f702",
+    "https://deno.land/std@0.91.0/http/cookie.ts": "4455514ffc2fd3b90e00040df41a48bb67e83d3fcb6ce1e4d56f22c4ab540360",
+    "https://deno.land/std@0.91.0/http/http_status.ts": "ebaa9bebfb8adc3d7b20c49e11037e4eefd79629ad80d81383933f4cdc91b3eb",
+    "https://deno.land/std@0.91.0/http/mod.ts": "2c27735357f9e722c8396661089231f74631911ccb3c677e0b7b9f00492c2742",
+    "https://deno.land/std@0.91.0/http/server.ts": "f659848d91447aee699e46d4a5e547215349827fef2c918fcdf52228213c184a",
+    "https://deno.land/std@0.91.0/io/bufio.ts": "60d292248c8b32b3d8d13a4336b0c381b2dce5b9c9b50a4930205dea87eaf456",
+    "https://deno.land/std@0.91.0/textproto/mod.ts": "1c89b39a079dd158893ab2e9ff79391c66049433d6ca82da7d64b32280570d51"
   },
   "workspace": {
     "dependencies": [
-      "jsr:@std/assert@1"
-    ],
-    "packageJson": {
-      "dependencies": [
-        "npm:graphql-yoga@^5.10.2",
-        "npm:graphql@^16.9.0"
-      ]
-    }
+      "jsr:@std/assert@^1.0.8",
+      "jsr:@std/async@^1.0.8",
+      "jsr:@std/encoding@^1.0.5",
+      "jsr:@std/http@^1.0.10",
+      "jsr:@std/io@0.225",
+      "jsr:@std/testing@^1.0.5",
+      "npm:@types/ws@^8.5.13",
+      "npm:graphql-yoga@^5.10.3",
+      "npm:graphql@^16.9.0",
+      "npm:ws@^8.18.0"
+    ]
   }
 }
