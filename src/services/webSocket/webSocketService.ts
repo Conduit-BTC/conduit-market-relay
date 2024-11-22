@@ -53,7 +53,7 @@ export class WebSocketService {
     const {
       port = 8080,
       hostname = "localhost",
-      path = '/ws',
+      path = '/',
       verifyClient = this.defaultVerifyClient,
     } = options;
 
@@ -94,7 +94,7 @@ export class WebSocketService {
           return new Response("Not found", { status: 404 });
         }
       );
-
+      console.log(`WebSocket server running at ws://${hostname}:${port}${path}`);
       this.pingInterval = setInterval(() => this.checkConnections(), WebSocketService.PING_INTERVAL);
     });
   }
@@ -113,6 +113,7 @@ export class WebSocketService {
   }
 
   private async handleConnection(ws: WebSocket): Promise<void> {
+    console.log('New connection');
     if (this.connections.size >= WebSocketService.MAX_CONNECTIONS) {
       ws.close(1013, 'Maximum connections reached');
       return;
@@ -137,6 +138,7 @@ export class WebSocketService {
     ws.addEventListener("close", () => this.handleDisconnect(connectionId));
     ws.addEventListener("error", (event: any) => this.handleError(event.error));
     ws.addEventListener("open", async () => {
+      console.log('Connection opened');
       try {
         await this.sendMessage(ws, {
           type: 'CONNECTED',
@@ -150,6 +152,7 @@ export class WebSocketService {
   }
 
   private async handleMessage(ws: WebSocket, event: MessageEvent): Promise<void> {
+    console.log('Message received');
     const metadata = Array.from(this.connections.entries())
       .find(([_, meta]) => meta.ws === ws)?.[1];
 
@@ -205,6 +208,7 @@ export class WebSocketService {
   }
 
   private checkConnections(): void {
+    console.log('Checking connections');
     const now = Date.now();
 
     for (const [id, metadata] of this.connections) {

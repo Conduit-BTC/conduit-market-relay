@@ -1,5 +1,5 @@
 import { assert, assertExists } from "@std/assert";
-import { webSocketService } from "@/services/webSocketService.ts";
+import { webSocketService } from "@/services/webSocket/webSocketService.ts";
 import { delay } from "@std/async";
 import { eventBus } from "@/events/eventBus.ts";
 
@@ -12,14 +12,14 @@ Deno.test({
 
     const options = {
       port: PORT,
-      path: "/ws",
+      path: "/",
       maxPayload: 1024,
       verifyClient: () => true
     };
 
     await webSocketService.initialize(options);
 
-    const ws = new WebSocket(`ws://localhost:${PORT}/ws`);
+    const ws = new WebSocket(`ws://localhost:${PORT}/`);
 
     await new Promise<void>((resolve) => {
       ws.addEventListener('open', (event) => {
@@ -67,7 +67,7 @@ Deno.test("webSocketService - broadcasting messages", async () => {
 
   const options = {
     port: PORT,
-    path: "/ws",
+    path: "/",
     maxPayload: 1024,
     verifyClient: () => true
   };
@@ -76,8 +76,8 @@ Deno.test("webSocketService - broadcasting messages", async () => {
 
   await delay(100);
 
-  const client1 = new WebSocket(`ws://localhost:${PORT}/ws`);
-  const client2 = new WebSocket(`ws://localhost:${PORT}/ws`);
+  const client1 = new WebSocket(`ws://localhost:${PORT}/`);
+  const client2 = new WebSocket(`ws://localhost:${PORT}/`);
 
   client1.addEventListener('error', (error) => console.error('Client 1 error:', error));
   client2.addEventListener('error', (error) => console.error('Client 2 error:', error));

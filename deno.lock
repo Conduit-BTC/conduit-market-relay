@@ -293,7 +293,13 @@
       "integrity": "sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw=="
     }
   },
+  "redirects": {
+    "https://deno.land/std/async/delay.ts": "https://deno.land/std@0.224.0/async/delay.ts",
+    "https://deno.land/std/http/server.ts": "https://deno.land/std@0.224.0/http/server.ts"
+  },
   "remote": {
+    "https://deno.land/std@0.224.0/async/delay.ts": "f90dd685b97c2f142b8069082993e437b1602b8e2561134827eeb7c12b95c499",
+    "https://deno.land/std@0.224.0/http/server.ts": "f9313804bf6467a1704f45f76cb6cd0a3396a3b31c316035e6a4c2035d1ea514",
     "https://deno.land/std@0.91.0/_util/assert.ts": "2f868145a042a11d5ad0a3c748dcf580add8a0dbc0e876eaa0026303a5488f58",
     "https://deno.land/std@0.91.0/async/deferred.ts": "624bef4b755b71394620508a0c234a93cb8020cbd1b04bfcdad41c174392cef6",
     "https://deno.land/std@0.91.0/async/delay.ts": "9de1d8d07d1927767ab7f82434b883f3d8294fb19cad819691a2ad81a728cf3d",
