@@ -47,7 +47,31 @@ class WebSocketTester {
       // 4. Test basic message exchange if connected
       if (this.ws && this.ws.readyState === WebSocket.OPEN) {
         console.log('\n📤 Testing message sending...');
-        this.ws.send(JSON.stringify({ type: 'TEST', payload: 'Hello Server!' }));
+        this.ws.send(JSON.stringify([
+  "REQ",
+  "set_home_feeds_web_0.200.4_1505688448",
+  {
+    "cache": [
+      "set_app_subsettings",
+      {
+        "event_from_user": {
+          "content": "{\"subkey\":\"user-home-feeds\",\"settings\":[{\"name\":\"Latest\",\"spec\":\"{\\\"id\\\":\\\"latest\\\",\\\"kind\\\":\\\"notes\\\"}\",\"feedkind\":\"primal\",\"enabled\":true,\"description\":\"Latest notes by your follows\"},{\"name\":\"Latest with Replies\",\"spec\":\"{\\\"id\\\":\\\"latest\\\",\\\"include_replies\\\":true,\\\"kind\\\":\\\"notes\\\"}\",\"feedkind\":\"primal\",\"enabled\":false,\"description\":\"Latest notes and replies by your follows\"},{\"name\":\"Trending 7d\",\"spec\":\"{\\\"id\\\":\\\"global-trending\\\",\\\"kind\\\":\\\"notes\\\",\\\"hours\\\":168}\",\"feedkind\":\"primal\",\"enabled\":false,\"description\":\"Global trending notes in the past 7 days\"},{\"name\":\"Trending 48h\",\"spec\":\"{\\\"id\\\":\\\"global-trending\\\",\\\"kind\\\":\\\"notes\\\",\\\"hours\\\":48}\",\"feedkind\":\"primal\",\"enabled\":false,\"description\":\"Global trending notes in the past 48 hours\"},{\"name\":\"Trending 24h\",\"spec\":\"{\\\"id\\\":\\\"global-trending\\\",\\\"kind\\\":\\\"notes\\\",\\\"hours\\\":24}\",\"feedkind\":\"primal\",\"enabled\":false,\"description\":\"Global trending notes in the past 24 hours\"},{\"name\":\"Trending 12h\",\"spec\":\"{\\\"id\\\":\\\"global-trending\\\",\\\"kind\\\":\\\"notes\\\",\\\"hours\\\":12}\",\"feedkind\":\"primal\",\"enabled\":false,\"description\":\"Global trending notes in the past 12 hours\"},{\"name\":\"Trending 4h\",\"spec\":\"{\\\"id\\\":\\\"global-trending\\\",\\\"kind\\\":\\\"notes\\\",\\\"hours\\\":4}\",\"feedkind\":\"primal\",\"enabled\":false,\"description\":\"Global trending notes in the past 4 hours\"},{\"name\":\"Trending 1h\",\"spec\":\"{\\\"id\\\":\\\"global-trending\\\",\\\"kind\\\":\\\"notes\\\",\\\"hours\\\":1}\",\"feedkind\":\"primal\",\"enabled\":false,\"description\":\"Global trending notes in the past hour\"},{\"name\":\"Nostr Firehose\",\"spec\":\"{\\\"id\\\":\\\"all-notes\\\",\\\"kind\\\":\\\"notes\\\"}\",\"feedkind\":\"primal\",\"enabled\":true,\"description\":\"Latest global notes; be careful!\"}]}",
+          "kind": 30078,
+          "tags": [
+            [
+              "d",
+              "Primal-Web App"
+            ]
+          ],
+          "created_at": 1732345643,
+          "pubkey": "308761407319e2c9faefe341a5cfa17060e25320e7c6bb4e33e3f2fecffb1126",
+          "id": "9ded86d4264521b3a827273ca125bfa8a909a5353db922626b1142d3eb7d4003",
+          "sig": "71f5e695e514b0e34296b0a4cbac833685c60a4a03e1146580bd7b8bf5381094b8d6f5414b783c53b2e4c8c555692f5b650416450d33b401b2526fe7e7ece4cf"
+        }
+      }
+    ]
+  }
+]));
 
         await delay(1000); // Wait for potential response
 

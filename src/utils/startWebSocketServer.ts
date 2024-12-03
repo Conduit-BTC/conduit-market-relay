@@ -18,8 +18,7 @@ export async function startWebSocketServer({ enablePeriodicMetricsLogging = fals
             port: 8080,
             hostname: "localhost",
             path: "/",
-            verifyClient: (request) => {
-                console.log("Incoming connection from:", request.headers.get("origin"));
+            verifyClient: () => {
                 return true; // Accepting all connections
             }
         });

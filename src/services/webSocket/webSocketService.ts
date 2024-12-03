@@ -1,6 +1,7 @@
 import { encodeHex } from "@std/encoding/hex";
 import { eventBus } from "@/events/eventBus.ts";
 import { WebSocketEvents } from "@/events/eventNames.ts";
+import { isValidJsonString } from "@/utils/typeUtils.ts";
 
 interface ConnectionMetadata {
   ws: WebSocket;
@@ -14,6 +15,10 @@ interface ConnectionMetadata {
 export interface WebSocketMessage {
   type: string;
   payload?: any;
+}
+
+interface JsonArray extends Array<unknown> {
+  [n: number]: unknown;
 }
 
 export class WebSocketService {
@@ -113,7 +118,6 @@ export class WebSocketService {
   }
 
   private async handleConnection(ws: WebSocket): Promise<void> {
-    console.log('New connection');
     if (this.connections.size >= WebSocketService.MAX_CONNECTIONS) {
       ws.close(1013, 'Maximum connections reached');
       return;
@@ -129,16 +133,13 @@ export class WebSocketService {
       messageCount: 0,
     };
 
-    // Store connection
     this.connections.set(connectionId, metadata);
     this.metrics.totalConnections++;
 
-    // Set up event listeners
     ws.addEventListener("message", (event) => this.handleMessage(ws, event));
     ws.addEventListener("close", () => this.handleDisconnect(connectionId));
     ws.addEventListener("error", (event: any) => this.handleError(event.error));
     ws.addEventListener("open", async () => {
-      console.log('Connection opened');
       try {
         await this.sendMessage(ws, {
           type: 'CONNECTED',
@@ -152,36 +153,61 @@ export class WebSocketService {
   }
 
   private async handleMessage(ws: WebSocket, event: MessageEvent): Promise<void> {
-    console.log('Message received');
     const metadata = Array.from(this.connections.entries())
       .find(([_, meta]) => meta.ws === ws)?.[1];
 
     if (!metadata) return;
 
     try {
-      if (typeof event.data === "string" && event.data.length > WebSocketService.MAX_MESSAGE_SIZE) {
-        throw new Error('Message size exceeds maximum allowed size');
-      }
+      const message = WebSocketService.validateMessage(event.data, WebSocketService.MAX_MESSAGE_SIZE);
 
-      const data: WebSocketMessage = JSON.parse(event.data);
       metadata.messageCount++;
       this.metrics.totalMessages++;
 
-      eventBus.emit(WebSocketEvents.WS_MESSAGE, {
-        connectionId: metadata.id,
-        message: data,
-        timestamp: new Date()
-      });
+      WebSocketService.route(message);
 
     } catch (error: any) {
       this.handleError(error);
       await this.sendMessage(ws, {
         type: 'ERROR',
         payload: {
-          message: 'Invalid message format',
+          message: `Invalid message format`,
           code: 'INVALID_FORMAT'
         }
       });
+    }
+
+  }
+
+  static validateMessage(data: unknown, maxMessageSize: number): JsonArray {
+    // Throws if value is NOT a JSON Array string, with the first element being a string
+
+    if (typeof data !== "string") throw new TypeError('Invalid message type: Not a string')
+    if (typeof data === "string" && data.length > maxMessageSize) throw new TypeError('Message size exceeds maximum allowed size')
+    if (!isValidJsonString(data)) throw new TypeError('Invalid message type: Not a valid JSON string')
+
+    const message: JsonArray = JSON.parse(data);
+
+    if (message.length < 1) throw new TypeError('Invalid message format: Not a JSON Array with at least one element')
+    if (typeof message[0] !== "string") throw new TypeError('Invalid message format')
+
+    return message;
+  }
+
+  static route(data: JsonArray): void {
+    console.log("Routing message:", data);
+    switch (data[0]) {
+      case "EVENT":
+        // Handle request
+        break;
+      case "REQ":
+        // Handle response
+        break;
+      case "CLOSE":
+        // Handle error
+        break;
+      default:
+        throw new Error("Not a Nostr message");
     }
   }
 
@@ -208,7 +234,6 @@ export class WebSocketService {
   }
 
   private checkConnections(): void {
-    console.log('Checking connections');
     const now = Date.now();
 
     for (const [id, metadata] of this.connections) {
