@@ -1,5 +1,5 @@
 // server.ts
-import { webSocketService } from "@/services/webSocket/webSocketService.ts";
+import { webSocketService } from "../services/webSocket/webSocketService.ts";
 
 export async function startWebSocketServer({ enablePeriodicMetricsLogging = false }: { enablePeriodicMetricsLogging?: boolean } = {}) {
     try {

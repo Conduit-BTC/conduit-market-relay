@@ -1,7 +1,7 @@
-import { assert, assertExists } from "@std/assert";
-import { webSocketService } from "@/services/webSocket/webSocketService.ts";
 import { delay } from "@std/async";
 import { eventBus } from "@/events/eventBus.ts";
+import { assert, assertExists } from "@std/assert";
+import { webSocketService } from "@/services/webSocket/webSocketService.ts";
 
 Deno.test({
   name: "webSocketService - connection and message handling",
@@ -28,7 +28,7 @@ Deno.test({
       }, { once: true });
     });
 
-    const testMessage = { type: "test", data: "Hello WebSocket!" };
+    const testMessage = [ 'EVENT', { 'some': 'data' } ];
 
     ws.send(JSON.stringify(testMessage));
 
@@ -43,8 +43,6 @@ Deno.test({
 
     eventBus.subscribeOnce('WS_MESSAGE', (event) => {
       assert(event.connectionId === connectionId);
-      assert(event.message.type === testMessage.type);
-      assert(event.message.data === testMessage.data);
     });
 
     // Test metrics

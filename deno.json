@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run --watch main.ts",
+    "dev": "deno run --allow-net --watch main.ts",
     "test": "deno test --allow-net --ignore=tests/services/webSocketService_test.ts",
     "test:cov": "rm -rf coverage && deno test --allow-net --coverage=./coverage/profile && deno coverage ./coverage/profile"
   },

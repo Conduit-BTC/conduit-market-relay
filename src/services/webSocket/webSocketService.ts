@@ -1,7 +1,7 @@
 import { encodeHex } from "@std/encoding/hex";
 import { eventBus } from "@/events/eventBus.ts";
 import { WebSocketEvents } from "@/events/eventNames.ts";
-import { isValidJsonString } from "@/utils/typeUtils.ts";
+import { NostrService } from "@/services/nostrService.ts";
 
 interface ConnectionMetadata {
   ws: WebSocket;
@@ -17,10 +17,6 @@ export interface WebSocketMessage {
   payload?: any;
 }
 
-interface JsonArray extends Array<unknown> {
-  [n: number]: unknown;
-}
-
 export class WebSocketService {
   private static readonly PING_INTERVAL = 30000; // 30 seconds
   private static readonly CONNECTION_TIMEOUT = 120000; // 2 minutes
@@ -33,6 +29,7 @@ export class WebSocketService {
   private metrics: {
     totalConnections: number;
     totalMessages: number;
+    nostrMessages: number;
     errors: number;
     lastError?: Error;
   };
@@ -44,6 +41,7 @@ export class WebSocketService {
     this.metrics = {
       totalConnections: 0,
       totalMessages: 0,
+      nostrMessages: 0,
       errors: 0,
     };
   }
@@ -59,7 +57,7 @@ export class WebSocketService {
       port = 8080,
       hostname = "localhost",
       path = '/',
-      verifyClient = this.defaultVerifyClient,
+      verifyClient = WebSocketService.defaultVerifyClient,
     } = options;
 
     this.abortController = new AbortController();
@@ -104,13 +102,13 @@ export class WebSocketService {
     });
   }
 
-  private defaultVerifyClient(request: Request): boolean {
+  private static defaultVerifyClient(request: Request): boolean {
     const allowedOrigins = Deno.env.get("ALLOWED_ORIGINS")?.split(',') || ['localhost'];
     const origin = request.headers.get("origin") || "localhost";
     return allowedOrigins.includes(origin);
   }
 
-  private async generateConnectionId(): Promise<string> {
+  private static async generateConnectionId(): Promise<string> {
     const uniqueString = `${Date.now()}-${Math.random()}`;
     const messageBuffer = new TextEncoder().encode(uniqueString);
     const hashBuffer = await crypto.subtle.digest("SHA-256", messageBuffer);
@@ -123,7 +121,7 @@ export class WebSocketService {
       return;
     }
 
-    const connectionId = await this.generateConnectionId();
+    const connectionId = await WebSocketService.generateConnectionId();
     const metadata: ConnectionMetadata = {
       ws,
       id: connectionId,
@@ -141,7 +139,7 @@ export class WebSocketService {
     ws.addEventListener("error", (event: any) => this.handleError(event.error));
     ws.addEventListener("open", async () => {
       try {
-        await this.sendMessage(ws, {
+        await WebSocketService.sendMessage(ws, {
           type: 'CONNECTED',
           payload: { connectionId }
         });
@@ -152,63 +150,40 @@ export class WebSocketService {
     });
   }
 
-  private async handleMessage(ws: WebSocket, event: MessageEvent): Promise<void> {
+  private handleMessage(ws: WebSocket, event: MessageEvent): void {
     const metadata = Array.from(this.connections.entries())
       .find(([_, meta]) => meta.ws === ws)?.[1];
 
     if (!metadata) return;
 
+    metadata.messageCount++;
+    this.metrics.totalMessages++;
+
     try {
-      const message = WebSocketService.validateMessage(event.data, WebSocketService.MAX_MESSAGE_SIZE);
-
-      metadata.messageCount++;
-      this.metrics.totalMessages++;
-
-      WebSocketService.route(message);
-
+      WebSocketService.route(ws, event.data);
     } catch (error: any) {
       this.handleError(error);
-      await this.sendMessage(ws, {
-        type: 'ERROR',
-        payload: {
-          message: `Invalid message format`,
-          code: 'INVALID_FORMAT'
-        }
-      });
     }
-
   }
 
-  static validateMessage(data: unknown, maxMessageSize: number): JsonArray {
-    // Throws if value is NOT a JSON Array string, with the first element being a string
 
-    if (typeof data !== "string") throw new TypeError('Invalid message type: Not a string')
-    if (typeof data === "string" && data.length > maxMessageSize) throw new TypeError('Message size exceeds maximum allowed size')
-    if (!isValidJsonString(data)) throw new TypeError('Invalid message type: Not a valid JSON string')
 
-    const message: JsonArray = JSON.parse(data);
+  static route(ws: WebSocket, data: unknown): void {
+    const {success, message} = NostrService.validateMessage(data, WebSocketService.MAX_MESSAGE_SIZE);
 
-    if (message.length < 1) throw new TypeError('Invalid message format: Not a JSON Array with at least one element')
-    if (typeof message[0] !== "string") throw new TypeError('Invalid message format')
+      if (!success) {
+        WebSocketService.sendMessage(ws, {
+          type: 'ERROR',
+          payload: {
+            error: message,
+            message: data,
+            code: 'INVALID_FORMAT'
+          }
+        });
+        return;
+      }
 
-    return message;
-  }
-
-  static route(data: JsonArray): void {
-    console.log("Routing message:", data);
-    switch (data[0]) {
-      case "EVENT":
-        // Handle request
-        break;
-      case "REQ":
-        // Handle response
-        break;
-      case "CLOSE":
-        // Handle error
-        break;
-      default:
-        throw new Error("Not a Nostr message");
-    }
+      NostrService.route(ws, message);
   }
 
   private handleDisconnect(connectionId: string): void {
@@ -259,7 +234,7 @@ export class WebSocketService {
     }
   }
 
-  sendMessage(ws: WebSocket, message: WebSocketMessage): Promise<void> {
+  static sendMessage(ws: WebSocket, message: WebSocketMessage): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
         ws.send(JSON.stringify(message));
@@ -273,7 +248,7 @@ export class WebSocketService {
   async broadcast(message: WebSocketMessage, filter?: (metadata: ConnectionMetadata) => boolean): Promise<void> {
     const sendPromises = Array.from(this.connections.values())
       .filter(metadata => !filter || filter(metadata))
-      .map(metadata => this.sendMessage(metadata.ws, message));
+      .map(metadata => WebSocketService.sendMessage(metadata.ws, message));
 
     await Promise.all(sendPromises);
   }
